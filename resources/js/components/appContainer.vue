@@ -35,7 +35,7 @@
               </v-list-item-action>
               <v-list-item-content>
                   <v-list-item-title>
-                      Log out
+                      Log out {{  currentUser.first }}
                   </v-list-item-title>
               </v-list-item-content>
           </v-list-item>
@@ -52,19 +52,40 @@
     <v-main>
       <!--  -->
     </v-main>
+    <v-footer>
+        <span class="white-text">&copy; 2021</span>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
   export default {
     data: () => ({ drawer: null }),
+    computed: {
+        loggedIn: {
+            get() {
+                return this.$store.state.currentUser.loggedIn;
+            }
+        },
+        currentUser : {
+            get() {
+                return this.$store.state.currentUser.user;
+            }
+        }
+    },
     methods: {
         logout(){
-            axios.post('/logout')
-            .then(response => {
-                window.location.href = "login"
-            })
+            this.$store.dispatch('currentUser/logoutUser');
         },
+    },
+    created() {
+        if(localStorage.hasOwnProperty("blog_token")){
+            axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("blog_token");
+            this.$store.dispatch('currentUser/getUser');
+        }else {
+            window.location.replace("/login");
+        }
+        
     }
   }
 </script>
