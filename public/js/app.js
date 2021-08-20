@@ -2139,7 +2139,7 @@ var actions = {
       if (response.data.access_token) {
         //save token
         localStorage.setItem("blog_token", response.data.access_token);
-        window.location.replace("/home");
+        window.location.replace("/app");
       }
     });
   },

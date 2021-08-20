@@ -24,7 +24,7 @@ const actions = {
                     "blog_token",
                     response.data.access_token
                 )
-                window.location.replace("/home");
+                window.location.replace("/app");
             }
         })
     },
